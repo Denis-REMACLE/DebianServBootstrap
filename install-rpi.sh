@@ -18,16 +18,16 @@ function install_utils
 function install_cheat
 {
 	# Téléchargement de cheat
-	wget https://github.com/cheat/cheat/releases/download/4.2.3/cheat-linux-arm8.gz
+	wget https://github.com/cheat/cheat/releases/download/4.2.3/cheat-linux-arm7.gz
 
 	# Décompresser le programme
-	gunzip cheat-linux-arm8.gz
+	gunzip cheat-linux-arm7.gz
 
 	# Autoriser l'exécution à tout les utilisateurs
-	chmod a+x cheat-linux-arm8
+	chmod a+x cheat-linux-arm7
 
 	# Déplacer le programme vers /usr/local/bin/
-	mv -v cheat-linux-arm8 /usr/local/bin/cheat
+	mv -v cheat-linux-arm7 /usr/local/bin/cheat
 }
 
 function uninstall_cheat
