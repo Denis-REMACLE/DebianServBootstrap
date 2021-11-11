@@ -18,16 +18,16 @@ function install_utils
 function install_cheat
 {
 	# Téléchargement de cheat
-	wget https://github.com/cheat/cheat/releases/download/4.2.3/cheat-linux-amd64.gz
+	wget https://github.com/cheat/cheat/releases/download/4.2.3/cheat-linux-arm64.gz
 
 	# Décompresser le programme
-	gunzip cheat-linux-amd64.gz
+	gunzip cheat-linux-arm64.gz
 
 	# Autoriser l'exécution à tout les utilisateurs
-	chmod a+x cheat-linux-amd64
+	chmod a+x cheat-linux-arm64
 
 	# Déplacer le programme vers /usr/local/bin/
-	mv -v cheat-linux-amd64 /usr/local/bin/cheat
+	mv -v cheat-linux-arm64 /usr/local/bin/cheat
 }
 
 function uninstall_cheat
