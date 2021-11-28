@@ -13,7 +13,7 @@
 #---Mise à jours et installation des packages---#
 
 DOMAIN='my_bookstack.com'
-DB_password='bookstack'
+DB_password='passBookstack'
 
 
 function update() 
@@ -31,15 +31,17 @@ function mariadb_secure_install()
 	mysql_secure_installation 
 	mariadb -u root --execute="CREATE DATABASE bookstack"
 	mariadb -u root --execute="CREATE USER 'bookstack'@'localhost' IDENTIFIED BY '$DB_password';"
-       	mariadb -u root --execute="GRANT ALL ON bookstack.* TO 'bookstack'@'localhost'; FLUSH PRIVILEGES;"
+	mariadb -u root --execute="GRANT ALL ON bookstack.* TO 'bookstack'@'localhost'; FLUSH PRIVILEGES;"
 }
 
 function bookstack_download()
 {
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-	cd /var/www/ 
+	cd /var/www/
+	mkdir -p my_bookstack/html
+	cd my_bookstack/html
 	git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
-	cd /var/www/bookstack
+	cd bookstack
 	composer install --no-interaction  
 }
 
@@ -61,22 +63,27 @@ function migrate_data_base()
 
 function change_permission()
 {
-	chown -R www-data:www-data /var/www/bookstack && chmod -R 755 /var/www/bookstack
+	chown -R www-data:www-data /var/www/my_bookstack/ && chmod -R 755 /var/www/my_bookstack
 }
 
 function nginx_configuration()
 {	
 
+	#sed -i.bak 's/listen 80 default_server ;$/listen 80; /' /etc/nginx/sites-available/default 
+	#sed -i.bak 's/listen [::]:80 default_server ;$/listen [::]:80; /'
+	#need remove default_server option in the default nginx conf
+
+
 	uri='$uri'
 	query_string='$query_string'
-	cat > /etc/nginx/sites-available/bookstack << EOL
+	cat > /etc/nginx/sites-available/my_bookstack << EOL
 server {
-  listen 80;
-  listen [::]:80;
+  listen 80 defautl_server;
+  listen [::]:80 defautl_server;
 
-  server_name my_bookstack.com www.my_bookstack.com ; 
+  server_name my_bookstack.com ; 
 
-  root /var/www/bookstack/public;
+  root /var/www/my_bookstack/html/bookstack/public;
   index index.php index.html;
 
   location / {
@@ -96,7 +103,7 @@ EOL
 }
 
 echo "###--BookStack installation--###"
-echo "\n"
+sleep 2
 echo "###--Package update--###"
 update
 sleep 5
