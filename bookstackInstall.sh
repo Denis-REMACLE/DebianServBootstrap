@@ -5,8 +5,9 @@
 #
 #
 #
-#Auteur	: Letang Nicolas
+#Auteur	: Letang Nicolas & Remacle Denis
 #Email	: nicolas.letang.travail@homtmail.com
+#Email	: denis.remacle@outlook.fr
 #Version: 1.0
 
 
@@ -16,17 +17,17 @@ DOMAIN='my_bookstack.com'
 DB_password='passBookstack'
 
 
-function update() 
+function update
 {
 	apt-get update && apt-get upgrade -y
 }
 
-function package_install()
+function package_install
 {
 	apt-get install unzip curl php7.4-fpm php7.4-common php7.4-mysql php7.4-gmp php7.4-curl php7.4-intl php7.4-mbstring php7.4-xmlrpc php7.4-gd php7.4-xml php7.4-cli php7.4-zip php7.4-soap php7.4-imap nginx mariadb-server mariadb-client -y 
 }
 
-function mariadb_secure_install()
+function mariadb_secure_install
 {	
 	mysql_secure_installation 
 	mariadb -u root --execute="CREATE DATABASE bookstack"
@@ -34,18 +35,18 @@ function mariadb_secure_install()
 	mariadb -u root --execute="GRANT ALL ON bookstack.* TO 'bookstack'@'localhost'; FLUSH PRIVILEGES;"
 }
 
-function bookstack_download()
+function bookstack_download
 {
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 	cd /var/www/
-	mkdir -p my_bookstack/html
-	cd my_bookstack/html
+	mkdir -p $DOMAIN/html
+	cd $DOMAIN/html
 	git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
 	cd bookstack
 	composer install --no-interaction  
 }
 
-function bookstack_env()
+function bookstack_env
 {
 	cp .env.example .env
 	sed -i.bak "s@APP_URL=.*\$@APP_URL=http://$DOMAIN@" .env
@@ -55,31 +56,28 @@ function bookstack_env()
 
 }
 
-function migrate_data_base()
+function migrate_data_base
 {
 	php artisan key:generate --no-interaction --force
 	php artisan migrate --no-interaction --force 
 }
 
-function change_permission()
+function change_permission
 {
-	chown -R www-data:www-data /var/www/my_bookstack/ && chmod -R 755 /var/www/my_bookstack
+	chown -R www-data:www-data /var/www/$DOMAIN/ && chmod -R 755 /var/www/$DOMAIN
 }
 
-function nginx_configuration()
-{	
+function removing_default_nginx
+{
+	rm /etc/nginx/sites-*/default
+}
 
-	#sed -i.bak 's/listen 80 default_server ;$/listen 80; /' /etc/nginx/sites-available/default 
-	#sed -i.bak 's/listen [::]:80 default_server ;$/listen [::]:80; /'
-	#need remove default_server option in the default nginx conf
-
-
-	uri='$uri'
-	query_string='$query_string'
-	cat > /etc/nginx/sites-available/my_bookstack << EOL
+function nginx_configuration
+{
+	cat > /etc/nginx/sites-available/$DOMAIN << EOL
 server {
-  listen 80 defautl_server;
-  listen [::]:80 defautl_server;
+  listen 80;
+  listen [::]:80;
 
   server_name my_bookstack.com ; 
 
@@ -98,8 +96,9 @@ server {
 	
 EOL
 
-	ln -s /etc/nginx/sites-available/bookstack /etc/nginx/sites-enabled/
-	systemctl restart nginx.service 
+	ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
+	systemctl restart nginx.service
+	systemctl restart phpsessionclean.service
 }
 
 echo "###--BookStack installation--###"
@@ -111,13 +110,15 @@ echo "###--Package installation--###"
 package_install
 sleep 5
 mariadb_secure_install
-sleep 5 
+sleep 5
 bookstack_download
 sleep 5
 bookstack_env
 sleep 5
 migrate_data_base
-sleep 5 
+sleep 5
 change_permission
-sleep 5 
+sleep 5
+removing_default_nginx
+sleep 5
 nginx_configuration
