@@ -39,8 +39,6 @@ function bookstack_download
 {
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 	cd /var/www/
-	mkdir -p $DOMAIN/html
-	cd $DOMAIN/html
 	git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
 	cd bookstack
 	composer install --no-interaction  
@@ -81,7 +79,7 @@ server {
 
   server_name my_bookstack.com ; 
 
-  root /var/www/my_bookstack/html/bookstack/public;
+  root /var/www/bookstack/public;
   index index.php index.html;
 
   location / {
