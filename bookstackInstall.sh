@@ -13,7 +13,7 @@
 
 #---Mise à jours et installation des packages---#
 
-DOMAIN='my_bookstack.com'
+DOMAIN='wiki.esgi.local'
 DB_password='passBookstack'
 
 
@@ -62,7 +62,7 @@ function migrate_data_base
 
 function change_permission
 {
-	chown -R www-data:www-data /var/www/$DOMAIN/ && chmod -R 755 /var/www/$DOMAIN
+	chown -R www-data:www-data /var/www/bookstack/ && chmod -R 755 /var/www/bookstack
 }
 
 function removing_default_nginx
@@ -77,7 +77,7 @@ server {
   listen 80;
   listen [::]:80;
 
-  server_name my_bookstack.com ; 
+  server_name  wiki.esgi.local; 
 
   root /var/www/bookstack/public;
   index index.php index.html;
