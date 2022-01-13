@@ -39,6 +39,8 @@ function bookstack_download
 {
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 	cd /var/www/
+	mkdir -p $DOMAIN/html
+	cd $DOMAIN/html
 	git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
 	cd bookstack
 	composer install --no-interaction  
@@ -62,7 +64,7 @@ function migrate_data_base
 
 function change_permission
 {
-	chown -R www-data:www-data /var/www/bookstack/ && chmod -R 755 /var/www/bookstack
+	chown -R www-data:www-data /var/www/$DOMAIN/ && chmod -R 755 /var/www/$DOMAIN
 }
 
 function removing_default_nginx
@@ -77,9 +79,9 @@ server {
   listen 80;
   listen [::]:80;
 
-  server_name  wiki.esgi.local; 
+  server_name wiki.esgi.local ; 
 
-  root /var/www/bookstack/public;
+  root /var/www/my_bookstack/html/bookstack/public;
   index index.php index.html;
 
   location / {
