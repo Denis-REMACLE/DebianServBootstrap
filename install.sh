@@ -179,7 +179,7 @@ function banner_install
 	cat >> /etc/mymotd << EOF
 Hello dear user,
 
-You may use this server responsibly and be mindful of the commands type.
+You may use this server responsibly and be mindful of the commands you type.
 Or there will be trouble !
 
 Cheerfully,
