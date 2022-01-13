@@ -5,7 +5,7 @@
 #
 #
 #
-#Auteur	: Letang Nicolas & Remacle Denis
+#Auteur	: Letang Nicolas & Remacle Denis & Tougma Boris
 #Email	: nicolas.letang.travail@homtmail.com
 #Email	: denis.remacle@outlook.fr
 #Version: 1.0
