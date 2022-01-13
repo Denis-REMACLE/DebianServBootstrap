@@ -79,21 +79,24 @@ server {
   listen 80;
   listen [::]:80;
 
-  server_name wiki.esgi.local ; 
+  server_name wiki.esgi.local;
 
-  root /var/www/my_bookstack/html/bookstack/public;
+  root /var/www/wiki.esgi.local/html/bookstack/public;
+
   index index.php index.html;
 
   location / {
     try_files $uri $uri/ /index.php?$query_string;
-  }	
-  
-  location ~ \.php$ {
-    include snippets/fastcgi-php.conf;
-    fastcgi_pass unix:/run/php/php7.4-fpm.sock;
   }
-}	
-	
+
+  location ~ \.php$ {
+    fastcgi_index index.php;
+    try_files $uri =404;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+  }
+}
 EOL
 
 	ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
