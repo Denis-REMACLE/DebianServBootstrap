@@ -93,7 +93,7 @@ server {
     fastcgi_index index.php;
     try_files \$uri =404;
     include fastcgi_params;
-    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
     fastcgi_pass unix:/run/php/php7.4-fpm.sock;
   }
 }
