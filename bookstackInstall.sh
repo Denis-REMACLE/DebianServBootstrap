@@ -14,7 +14,7 @@
 #---Mise à jours et installation des packages---#
 
 DOMAIN='wiki.denisremacle.xyz'
-DB_password='passBookstack'
+DB_password='DONT_BE_DUMB_CHANGE_ME_BRO'
 
 
 function update
