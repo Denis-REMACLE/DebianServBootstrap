@@ -13,7 +13,7 @@
 
 #---Mise à jours et installation des packages---#
 
-DOMAIN='wiki.esgi.local'
+DOMAIN='wiki.denisremacle.xyz'
 DB_password='passBookstack'
 
 
@@ -79,9 +79,9 @@ server {
   listen 80;
   listen [::]:80;
 
-  server_name wiki.esgi.local;
+  server_name wiki.denisremacle.xyz;
 
-  root /var/www/wiki.esgi.local/html/bookstack/public;
+  root /var/www/wiki.denisremacle.xyz/html/bookstack/public;
 
   index index.php index.html;
 
