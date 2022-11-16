@@ -13,7 +13,7 @@
 
 #---Mise à jours et installation des packages---#
 
-DOMAIN='wiki.denisremacle.xyz'
+DOMAIN='bookstack.denisremacle.xyz'
 DB_password='DONT_BE_DUMB_CHANGE_ME_BRO'
 
 
@@ -79,9 +79,9 @@ server {
   listen 80;
   listen [::]:80;
 
-  server_name wiki.denisremacle.xyz;
+  server_name bookstack.denisremacle.xyz;
 
-  root /var/www/wiki.denisremacle.xyz/html/bookstack/public;
+  root /var/www/bookstack.denisremacle.xyz/html/bookstack/public;
 
   index index.php index.html;
 
