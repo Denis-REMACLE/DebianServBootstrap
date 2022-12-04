@@ -18,7 +18,7 @@ function install_utils
 function install_cheat
 {
 	# Téléchargement de cheat
-	wget https://github.com/cheat/cheat/releases/download/4.2.3/cheat-linux-amd64.gz
+	wget https://github.com/cheat/cheat/releases/download/4.4.0/cheat-linux-amd64.gz
 
 	# Décompresser le programme
 	gunzip cheat-linux-amd64.gz
